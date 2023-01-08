@@ -1,7 +1,7 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
+$(document).ready(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -21,3 +21,29 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+function createHours() {
+  let i;
+  var $hourCreate = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
+  var $hourCont = $("<div>").addClass("row time-block past hourCont"); 
+  var $hourDiv = $("<div></div>").addClass("col-2 col-md-1 hour text-center py-3 hourDiv");
+  var $textCont = $("<textarea></textarea>").addClass("col-8 col-md-10 description textCont").attr("rows", 3);
+  var $btnCont = $("<button>").addClass("btn saveBtn col-2 col-md-1 btnCont").attr("aria-label", "save");
+  var $iCont = $("<i></i></button></div>").addClass("fas fa-save iCont").attr("aria-hidden", "true");
+  for (i=0; i<$hourCreate.length; i++) {
+    $(".hour-slots").append($hourCont.clone());
+    console.log(i);
+  }
+  $(".hourCont").append($hourDiv);
+  for (i=0; i<$hourCreate.length; i++) {
+    $(".hourCont").children().eq(i).attr("id", $hourCreate[i]);
+    $("#" + $hourCreate[i]).text($hourCreate[i]);  
+    console.log($hourCreate[i]);
+  }
+  $(".hourCont").append($textCont);
+  $(".hourCont").append($btnCont);
+  $(".btnCont").append($iCont);
+}
+
+createHours();
+
