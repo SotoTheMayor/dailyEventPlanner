@@ -19,7 +19,13 @@ $(document).ready(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  $(".saveBtn").click(function(){
+    localStorage.setItem($(this).parent().closest('.hourCont').attr('id'),$(this).closest(".textCont").text());
+    console.log($(this).parent().closest('.hourCont').attr('id'));
+    console.log($(this).parent().children(".textCont").text());
+  })
   // TODO: Add code to display the current date in the header of the page.
+  $("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + ", " + dayjs().year())
 });
 
 function createHours() {
@@ -28,17 +34,15 @@ function createHours() {
   var $hourCont = $("<div>").addClass("row time-block past hourCont"); 
   var $hourDiv = $("<div></div>").addClass("col-2 col-md-1 hour text-center py-3 hourDiv");
   var $textCont = $("<textarea></textarea>").addClass("col-8 col-md-10 description textCont").attr("rows", 3);
-  var $btnCont = $("<button>").addClass("btn saveBtn col-2 col-md-1 btnCont").attr("aria-label", "save");
+  var $btnCont = $("<button>").addClass("btn saveBtn col-2 col-md-1 btnCont").attr("aria-Label", "save");
   var $iCont = $("<i></i></button></div>").addClass("fas fa-save iCont").attr("aria-hidden", "true");
   for (i=0; i<$hourCreate.length; i++) {
     $(".hour-slots").append($hourCont.clone());
-    console.log(i);
   }
   $(".hourCont").append($hourDiv);
   for (i=0; i<$hourCreate.length; i++) {
     $(".hourCont").children().eq(i).attr("id", $hourCreate[i]);
     $("#" + $hourCreate[i]).text($hourCreate[i]);  
-    console.log($hourCreate[i]);
   }
   $(".hourCont").append($textCont);
   $(".hourCont").append($btnCont);
@@ -47,3 +51,11 @@ function createHours() {
 
 createHours();
 
+//Add an ID to each hour linked to dayjs conventions
+//Call ID based on dayjs current hour, set class based on less than, equal to, or greater than ID
+//Add event listener for specific save buttons
+$(".saveBtn").click(function(){
+  localStorage.setItem($(this).closest('.hourCont').attr('id'),$(this).closest(".textCont").text())
+})
+//Link save button to local storage
+//Store a variable for date locally and if != on refresh, auto clear and date change?
