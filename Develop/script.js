@@ -1,6 +1,4 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+// Wraps all code to prevent loading prior to HTML DOM element creation 
 $(document).ready(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -9,11 +7,6 @@ $(document).ready(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
@@ -28,8 +21,14 @@ $(document).ready(function () {
   $("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + " of " + dayjs().year())
 });
 
+//function to create all HTML elements, 
+//assign them classes & ids, 
+//and set time relative to dayjs API
 function createHours() {
   let i;
+//can add hours to the following array and they will load
+//need to adjust loops further down if adding anything before 9AM
+//anything added post 5PM will work as is
   var $hourCreate = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
   var $hourCont = $("<div>").addClass("row time-block hourCont"); 
   var $hourDiv = $("<div></div>").addClass("col-2 col-md-1 hour text-center py-3 hourDiv");
