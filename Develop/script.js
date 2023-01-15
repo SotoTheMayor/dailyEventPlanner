@@ -25,13 +25,13 @@ $(document).ready(function () {
     console.log($(this).parent().children(".textCont").text());
   })
   // TODO: Add code to display the current date in the header of the page.
-  $("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + ", " + dayjs().year())
+  $("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + " of " + dayjs().year())
 });
 
 function createHours() {
   let i;
   var $hourCreate = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
-  var $hourCont = $("<div>").addClass("row time-block past hourCont"); 
+  var $hourCont = $("<div>").addClass("row time-block hourCont"); 
   var $hourDiv = $("<div></div>").addClass("col-2 col-md-1 hour text-center py-3 hourDiv");
   var $textCont = $("<textarea></textarea>").addClass("col-8 col-md-10 description textCont").attr("rows", 3);
   var $btnCont = $("<button>").addClass("btn saveBtn col-2 col-md-1 btnCont").attr("aria-Label", "save");
@@ -47,6 +47,23 @@ function createHours() {
   $(".hourCont").append($textCont);
   $(".hourCont").append($btnCont);
   $(".btnCont").append($iCont);
+  //the following if/else statements set current hour class
+  //will work if any times are added to the end of $hourCreate array
+  //will need to change the "9" below to "8" if starting at 8am, "7" if 7am, etc.
+  if ($hourCreate[dayjs().hour() - 9] < 0) {
+    $hourCont.addClass("future")
+  } else if ($hourCreate[dayjs().hour() - 9] >= $hourCreate.length) {
+    $hourCont.addClass("past")
+  } else {
+    $("#" + $hourCreate[dayjs().hour() - 9]).parent().addClass("present");
+    console.log("before for loop i: " + i);
+    for (i=dayjs().hour() - 9; i>=0; i--) {
+      $("#" + $hourCreate[i-1]).parent().addClass("past")
+    };
+    for (i=dayjs().hour() - 9; i<=$hourCreate.length; i++) {
+      $("#" + $hourCreate[i+1]).parent().addClass("future")
+    };
+  }
 }
 
 createHours();
