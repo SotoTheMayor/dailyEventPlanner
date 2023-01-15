@@ -12,10 +12,15 @@ $(document).ready(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  // var e = $(".saveBtn").event("click");
+  //   console.log(e);
+  
+
   $(".saveBtn").click(function(){
-    localStorage.setItem($(this).parent().closest('.hourCont').attr('id'),$(this).closest(".textCont").text());
-    console.log($(this).parent().closest('.hourCont').attr('id'));
-    console.log($(this).parent().children(".textCont").text());
+    localStorage.setItem($(this).parent().children(".hourDiv").attr("id"),$(this).parent().children(".textCont").val());
+    console.log($(this).parent().children(".hourDiv").attr("id"));
+    console.log($(this).parent().children(".textCont").val());
+
   })
   // TODO: Add code to display the current date in the header of the page.
   $("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + " of " + dayjs().year())
@@ -55,7 +60,6 @@ function createHours() {
     $hourCont.addClass("past")
   } else {
     $("#" + $hourCreate[dayjs().hour() - 9]).parent().addClass("present");
-    console.log("before for loop i: " + i);
     for (i=dayjs().hour() - 9; i>=0; i--) {
       $("#" + $hourCreate[i-1]).parent().addClass("past")
     };
@@ -67,11 +71,10 @@ function createHours() {
 
 createHours();
 
-//Add an ID to each hour linked to dayjs conventions
-//Call ID based on dayjs current hour, set class based on less than, equal to, or greater than ID
+
 //Add event listener for specific save buttons
-$(".saveBtn").click(function(){
-  localStorage.setItem($(this).closest('.hourCont').attr('id'),$(this).closest(".textCont").text())
-})
+// $(".saveBtn").click(function(){
+//   localStorage.setItem($(this).closest('.hourCont').attr('id'),$(this).closest(".textCont").text())
+// })
 //Link save button to local storage
 //Store a variable for date locally and if != on refresh, auto clear and date change?
