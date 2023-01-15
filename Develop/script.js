@@ -12,9 +12,23 @@ $(document).ready(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-  // var e = $(".saveBtn").event("click");
-  //   console.log(e);
-  
+//   if (!localStorage.getItem("dailyCalendar")) {
+//     var dailyCalendar = {
+//         high1: "blank",
+//         score1: 0,
+//         high2: "blank",
+//         score2: 0,
+//         high3: "blank",
+//         score3: 0,
+//         high4: "blank",
+//         score4: 0,
+//         high5: "blank",
+//         score5: 0,
+//         }
+//         localStorage.setItem("dailyCalendar", JSON.stringify(dailyCalendar));
+// } else {
+//     var dailyCalendar = JSON.parse(localStorage.getItem("dailyCalendar"));
+// };
 
   $(".saveBtn").click(function(){
     localStorage.setItem($(this).parent().children(".hourDiv").attr("id"),$(this).parent().children(".textCont").val());
@@ -31,6 +45,7 @@ $(document).ready(function () {
 //and set time relative to dayjs API
 function createHours() {
   let i;
+  let dailyCalendar = [""];
 //can add hours to the following array and they will load
 //need to adjust loops further down if adding anything before 9AM
 //anything added post 5PM will work as is
@@ -51,6 +66,18 @@ function createHours() {
   $(".hourCont").append($textCont);
   $(".hourCont").append($btnCont);
   $(".btnCont").append($iCont);
+  if (!localStorage.getItem("dailyCalendar")) {
+     for (i=0; i<$hourCreate.length; i++) {
+      x = $hourCreate[i];
+      dailyCalendar[i] = {[x] : ""};
+    }
+      localStorage.setItem("dailyCalendar", JSON.stringify(dailyCalendar));
+
+  } else {
+
+    dailyCalendar = JSON.parse(localStorage.getItem("dailyCalendar"))
+  }
+  console.log(dailyCalendar)
   //the following if/else statements set current hour class
   //will work if any times are added to the end of $hourCreate array
   //will need to change the "9" below to "8" if starting at 8am, "7" if 7am, etc.
