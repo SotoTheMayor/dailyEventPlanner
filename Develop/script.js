@@ -1,51 +1,15 @@
 // Wraps all code to prevent loading prior to HTML DOM element creation 
 $(document).ready(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-//   if (!localStorage.getItem("dailyCalendar")) {
-//     var dailyCalendar = {
-//         high1: "blank",
-//         score1: 0,
-//         high2: "blank",
-//         score2: 0,
-//         high3: "blank",
-//         score3: 0,
-//         high4: "blank",
-//         score4: 0,
-//         high5: "blank",
-//         score5: 0,
-//         }
-//         localStorage.setItem("dailyCalendar", JSON.stringify(dailyCalendar));
-// } else {
-//     var dailyCalendar = JSON.parse(localStorage.getItem("dailyCalendar"));
-// };
 
-  $(".saveBtn").click(function(){
-    localStorage.setItem($(this).parent().children(".hourDiv").attr("id"),$(this).parent().children(".textCont").val());
-    console.log($(this).parent().children(".hourDiv").attr("id"));
-    console.log($(this).parent().children(".textCont").val());
-
-  })
-  // TODO: Add code to display the current date in the header of the page.
-  $("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + " of " + dayjs().year())
-});
+// Displays the current date in the header of the page.
+$("#currentDay").text("Today is " + dayjs().format("dddd") + ", " + dayjs().format("MMMM") + " " + dayjs().date() + " of " + dayjs().year())
 
 //function to create all HTML elements, 
 //assign them classes & ids, 
 //and set time relative to dayjs API
 function createHours() {
   let i;
-  let dailyCalendar = [""];
+
 //can add hours to the following array and they will load
 //need to adjust loops further down if adding anything before 9AM
 //anything added post 5PM will work as is
@@ -66,18 +30,12 @@ function createHours() {
   $(".hourCont").append($textCont);
   $(".hourCont").append($btnCont);
   $(".btnCont").append($iCont);
-  if (!localStorage.getItem("dailyCalendar")) {
-     for (i=0; i<$hourCreate.length; i++) {
-      x = $hourCreate[i];
-      dailyCalendar[i] = {[x] : ""};
-    }
-      localStorage.setItem("dailyCalendar", JSON.stringify(dailyCalendar));
 
-  } else {
-
-    dailyCalendar = JSON.parse(localStorage.getItem("dailyCalendar"))
+  //this for loop grabs all prior saved values
+  for (i=0; i<$hourCreate.length; i++) {
+    $("#" + $hourCreate[i]).parent().children(".textCont").val(localStorage.getItem($hourCreate[i]));
   }
-  console.log(dailyCalendar)
+
   //the following if/else statements set current hour class
   //will work if any times are added to the end of $hourCreate array
   //will need to change the "9" below to "8" if starting at 8am, "7" if 7am, etc.
@@ -94,14 +52,15 @@ function createHours() {
       $("#" + $hourCreate[i+1]).parent().addClass("future")
     };
   }
+
 }
 
+//primary function
 createHours();
 
+//save button listener, uses "this" to target associated container
+$(".saveBtn").click(function(){
+  localStorage.setItem($(this).parent().children(".hourDiv").attr("id"),$(this).parent().children(".textCont").val());
+})
+});
 
-//Add event listener for specific save buttons
-// $(".saveBtn").click(function(){
-//   localStorage.setItem($(this).closest('.hourCont').attr('id'),$(this).closest(".textCont").text())
-// })
-//Link save button to local storage
-//Store a variable for date locally and if != on refresh, auto clear and date change?
